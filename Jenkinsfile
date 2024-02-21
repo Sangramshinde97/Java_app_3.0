@@ -4,6 +4,9 @@ pipeline{
 
     agent any
     //agent { label 'Demo' }
+    tools {
+        Docker 'Docker'
+    }
 
     parameters{
 
