@@ -76,14 +76,13 @@ pipeline{
             }
         }
         stage('Upload') {
-    when { expression { params.action == 'create' } }
-    steps {
-        sh 'ls -l target/'
-        withAWS(region: 'ap-southeast-1', credentials: 'push-artifact') {
-            sh 'aws s3 ls'
-        }
-    }
-}
+         when { expression { params.action == 'create' } }
+            steps {
+              withAWS(credentials: 'push-artifact') {
+                sh 's3 cp file.txt s3://s3-artifact-akshay/sangram/file.txt'
+              }
+            }
+         }
         //stage('push to s3 bucket'){
         //when { expression {  params.action == 'create' } }
          //withCredentials([<object of type com.cloudbees.jenkins.plugins.awscredentials.AmazonWebServicesCredentialsBinding>]) {
