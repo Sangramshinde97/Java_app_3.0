@@ -75,7 +75,8 @@ pipeline{
                }
             }
         }
-        stage('Maven Build : maven'){
+        stage('push to s3 bucket'){
+         when { expression {  params.action == 'create' } }
          withCredentials([<object of type com.cloudbees.jenkins.plugins.awscredentials.AmazonWebServicesCredentialsBinding>]) {
              sh "aws s3 cp ./target/*.jar s3://s3-artifact-akshay/sangram/"
           }
