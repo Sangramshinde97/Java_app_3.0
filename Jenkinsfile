@@ -75,14 +75,17 @@ pipeline{
                }
             }
         }
-        stage('Upload') {
-         when { expression { params.action == 'create' } }
+        stage('Artifacts to S3') {
+            when { expression { params.action == 'create' } }
             steps {
-              withAWS(credentials: 'push-artifact') {
-                sh 'aws s3 cp file.txt s3://s3-artifact-akshay/sangram/file.txt'
-              }
+                script {
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: "${env.AWS_CREDENTIALS}", secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                        sh 'aws s3 ls'
+                        sh 'aws s3 cp /var/lib/jenkins/workspace/Demo/target/*.jar s3://s3-artifact-akshay/sangram'
+                    }
+                }
             }
-         }
+        }
         //stage('push to s3 bucket'){
         //when { expression {  params.action == 'create' } }
          //withCredentials([<object of type com.cloudbees.jenkins.plugins.awscredentials.AmazonWebServicesCredentialsBinding>]) {
