@@ -75,12 +75,28 @@ pipeline{
                }
             }
         }
-        stage('push to s3 bucket'){
-         when { expression {  params.action == 'create' } }
-         withCredentials([<object of type com.cloudbees.jenkins.plugins.awscredentials.AmazonWebServicesCredentialsBinding>]) {
-             sh "aws s3 cp ./target/*.jar s3://s3-artifact-akshay/sangram/"
-          }
-        }
+        stage('Upload') {
+          when { expression {  params.action == 'create' } }  
+          dir('/var/lib/jenkins/workspace/first-pipeline/target'){
+
+            pwd(); //Log current directory
+
+            withAWS(region:'ap-southeast-1',credentials:'push-artifact') {
+
+                 def identity=awsIdentity();//Log AWS credentials
+
+                // Upload files from working directory 'dist' in your project workspace
+                 s3Upload(bucket:"s3-artifact-akshay", workingDir:'dist', includePathPattern:'**/*');
+              }
+
+           };
+       }
+        //stage('push to s3 bucket'){
+        //when { expression {  params.action == 'create' } }
+         //withCredentials([<object of type com.cloudbees.jenkins.plugins.awscredentials.AmazonWebServicesCredentialsBinding>]) {
+           //  sh "aws s3 cp ./target/*.jar s3://s3-artifact-akshay/sangram/"
+          //}
+        //}
         stage('Docker Image Build'){
          when { expression {  params.action == 'create' } }
             steps{
