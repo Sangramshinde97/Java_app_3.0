@@ -78,15 +78,9 @@ pipeline{
         stage('Upload') {
     when { expression { params.action == 'create' } }
     steps {
-        dir('/var/lib/jenkins/workspace/first-pipeline/target') {
-            script {
-                pwd(); //Log current directory
-                withAWS(region:'ap-southeast-1',credentials:'push-artifact') {
-                    def identity=awsIdentity();//Log AWS credentials
-                    // Upload files from working directory 'dist' in your project workspace
-                    s3Upload(bucket:"s3-artifact-akshay", workingDir:'dist', includePathPattern:'**/*');
-                }
-            }
+        sh 'ls -l target/'
+        withAWS(region: 'us-west-2', credentials: 'push-artifact') {
+            sh 'aws s3 ls'
         }
     }
 }
