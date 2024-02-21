@@ -79,7 +79,7 @@ pipeline{
     when { expression { params.action == 'create' } }
     steps {
         sh 'ls -l target/'
-        withAWS(region: 'us-west-2', credentials: 'push-artifact') {
+        withAWS(region: 'ap-southeast-1', credentials: 'push-artifact') {
             sh 'aws s3 ls'
         }
     }
