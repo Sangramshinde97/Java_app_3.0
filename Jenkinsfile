@@ -79,7 +79,7 @@ pipeline{
          when { expression { params.action == 'create' } }
             steps {
               withAWS(credentials: 'push-artifact') {
-                sh 's3 cp file.txt s3://s3-artifact-akshay/sangram/file.txt'
+                sh 'aws s3 cp file.txt s3://s3-artifact-akshay/sangram/file.txt'
               }
             }
          }
