@@ -90,7 +90,7 @@ pipeline{
                 secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
             ]]) {
                 sh '''
-                    aws s3 cp --acl private --sse AES256 --recursive target/ s3://s3-artifact-akshay/sangram/
+                    s3Upload acl: 'Private', bucket: 's3-artifact-akshay', cacheControl: '', excludePathPattern: '', includePathPattern: '**/*', metadatas: [''], path: '/sangram', redirectLocation: '', sseAlgorithm: '', tags: '', workingDir: 'target'
                 '''
             }
         }
