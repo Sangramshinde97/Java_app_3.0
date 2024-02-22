@@ -83,7 +83,7 @@ pipeline{
                     }
                 }
             }
-        }
+        
         //stage('push to s3 bucket'){
         //when { expression {  params.action == 'create' } }
          //withCredentials([<object of type com.cloudbees.jenkins.plugins.awscredentials.AmazonWebServicesCredentialsBinding>]) {
