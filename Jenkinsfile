@@ -77,12 +77,19 @@ pipeline{
         }
         stage('Artifacts to S3') {
           when { expression { params.action == 'create' } }
-             steps {
-               script {
-               s3Upload acl: 'Private', bucket: 's3-artifact-akshay', cacheControl: '', excludePathPattern: '', includePathPattern: '**/*', metadatas: [''], path: '/sangram', redirectLocation: '', sseAlgorithm: '', tags: '', workingDir: 'target'
+            steps {
+                script {
+                    withCredentials([[
+                       $class: 'AmazonWebServicesCredentialsBinding',
+                       accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                       credentialsId: 'push-artifact',
+                       secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                       ]) {
+                          s3Upload acl: 'Private', bucket: 's3-artifact-akshay', cacheControl: '', excludePathPattern: '', includePathPattern: '**/*', metadatas: [''], path: '/sangram', redirectLocation: '', sseAlgorithm: '', tags: '', workingDir: 'target'
+                      }
+                   }
+                 }
               }
-          }
-       }
         
         //stage('push to s3 bucket'){
         //when { expression {  params.action == 'create' } }
