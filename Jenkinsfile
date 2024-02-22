@@ -75,25 +75,21 @@ pipeline{
                }
             }
         }
-        stage('Artifacts to S3') {
-    when {
-        expression {
-            params.action == 'create'
-        }
-    }
-    steps {
-        script {
-            withCredentials([[
-                $class: 'AmazonWebServicesCredentialsBinding',
-                accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                credentialsId: 'push-artifact',
-                secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-            ]]) {
-                sh '''
-                    s3Upload acl: 'Private', bucket: 's3-artifact-akshay', cacheControl: '', excludePathPattern: '', includePathPattern: '**/*', metadatas: [''], path: '/sangram', redirectLocation: '', sseAlgorithm: '', tags: '', workingDir: 'target'
-                '''
+        stage('Upload') {
+
+        dir('var/lib/jenkins/workspace/target'){
+
+            pwd(); //Log current directory
+
+            withAWS(region:'yourS3Region',credentials:'push-artifact') {
+
+                 def identity=awsIdentity();//Log AWS credentials
+
+                // Upload files from working directory 'dist' in your project workspace
+                s3Upload(bucket:"s3-artifact-akshay", workingDir:'sangram', includePathPattern:'**/*');
             }
-        }
+
+        };
     }
 }
         
