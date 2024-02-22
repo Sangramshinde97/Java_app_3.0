@@ -79,9 +79,7 @@ pipeline{
             when { expression { params.action == 'create' } }
             steps {
                 script {
-                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AKIA47CRZFMZOODFSEFU', credentialsId: "push-artifact", secretKeyVariable: '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']]) {
-                        sh 'aws s3 ls'
-                        sh 'aws s3 cp /var/lib/jenkins/workspace/Demo/target/*.jar s3://s3-artifact-akshay/sangram'
+                   s3Upload acl: 'Private', bucket: ' s3-artifact-akshay', cacheControl: '', excludePathPattern: '', file: '**/*', includePathPattern: '', metadatas: [''], path: '/sangram', redirectLocation: '', sseAlgorithm: '', tags: '', text: '', workingDir: 'target'
                     }
                 }
             }
