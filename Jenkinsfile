@@ -78,7 +78,7 @@ pipeline{
         stage('Upload') {
          when { expression { params.action == 'create' } }
            steps {
-              dir('/var/lib/jenkins/workspace/first-pipeline/target') {
+              dir('/var/lib/jenkins/workspace/first-pipeline') {
                 pwd(); // Log current directory
                   withAWS(region:'ap-southeast-1',credentials:'push-artifact') {
                     s3Upload(bucket:"s3-artifact-akshay", workingDir:'target', includePathPattern:'**/*');
