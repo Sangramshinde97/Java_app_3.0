@@ -80,7 +80,7 @@ pipeline{
            steps {
               dir('var/lib/jenkins/workspace/target') {
                 pwd(); // Log current directory
-                  withAWS(region:'yourS3Region',credentials:'push-artifact') {
+                  withAWS(region:'ap-southeast-1',credentials:'push-artifact') {
                     def identity = awsIdentity();// Log AWS credentials
                      // Upload files from working directory 'dist' in your project workspace
                     s3Upload(bucket:"s3-artifact-akshay", workingDir:'sangram', includePathPattern:'**/*');
