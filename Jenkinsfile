@@ -85,7 +85,7 @@ pipeline{
                        credentialsId: 'push-artifact',
                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                        ]) {
-                          s3Upload acl: 'Private', bucket: 's3-artifact-akshay', cacheControl: '', excludePathPattern: '', includePathPattern: '**/*', metadatas: [''], path: '/sangram', redirectLocation: '', sseAlgorithm: '', tags: '', workingDir: 'target'
+                         sh "s3Upload acl: 'Private', bucket: 's3-artifact-akshay', cacheControl: '', excludePathPattern: '', includePathPattern: '**/*', metadatas: [''], path: '/sangram', redirectLocation: '', sseAlgorithm: '', tags: '', workingDir: 'target'"
                       }
                    }
                  }
