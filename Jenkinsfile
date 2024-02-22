@@ -81,7 +81,7 @@ pipeline{
               dir('/var/lib/jenkins/workspace/first-pipeline/target') {
                 pwd(); // Log current directory
                   withAWS(region:'ap-southeast-1',credentials:'push-artifact') {
-                    s3Upload(bucket:"s3-artifact-akshay", workingDir:'sangram', includePathPattern:'**/*');
+                    s3Upload(bucket:"s3-artifact-akshay", workingDir:'target', includePathPattern:'**/*');
                     }
                  }
               }
