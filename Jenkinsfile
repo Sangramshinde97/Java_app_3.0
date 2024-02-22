@@ -76,8 +76,8 @@ pipeline{
             }
         }
         stage('Upload') {
-
-        dir('var/lib/jenkins/workspace/target'){
+         when { expression {  params.action == 'create' } }
+          dir('var/lib/jenkins/workspace/target'){
 
             pwd(); //Log current directory
 
