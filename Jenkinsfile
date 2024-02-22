@@ -76,21 +76,18 @@ pipeline{
             }
         }
         stage('Upload') {
-         when { expression {  params.action == 'create' } }
-          dir('var/lib/jenkins/workspace/target'){
-
-            pwd(); //Log current directory
-
-            withAWS(region:'yourS3Region',credentials:'push-artifact') {
-
-                 def identity=awsIdentity();//Log AWS credentials
-
-                // Upload files from working directory 'dist' in your project workspace
-                s3Upload(bucket:"s3-artifact-akshay", workingDir:'sangram', includePathPattern:'**/*');
-            }
-
-        };
-    }
+         when { expression { params.action == 'create' } }
+           steps {
+              dir('var/lib/jenkins/workspace/target') {
+                pwd(); // Log current directory
+                  withAWS(region:'yourS3Region',credentials:'push-artifact') {
+                    def identity = awsIdentity();// Log AWS credentials
+                     // Upload files from working directory 'dist' in your project workspace
+                    s3Upload(bucket:"s3-artifact-akshay", workingDir:'sangram', includePathPattern:'**/*');
+                    }
+                 }
+              }
+         }
 
         
         //stage('push to s3 bucket'){
