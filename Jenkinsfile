@@ -76,13 +76,13 @@ pipeline{
             }
         }
         stage('Artifacts to S3') {
-            when { expression { params.action == 'create' } }
-            steps {
-                script {
-                   s3Upload acl: 'Private', bucket: ' s3-artifact-akshay', cacheControl: '', excludePathPattern: '', file: '**/*', includePathPattern: '', metadatas: [''], path: '/sangram', redirectLocation: '', sseAlgorithm: '', tags: '', text: '', workingDir: 'target'
-                    }
-                }
+          when { expression { params.action == 'create' } }
+           steps {
+             script {
+             s3Upload acl: 'Private', bucket: 's3-artifact-akshay', cacheControl: '', excludePathPattern: '', includePathPattern: '**/*', metadatas: [''], path: '/sangram', redirectLocation: '', sseAlgorithm: '', tags: '', text: '', workingDir: 'target'
             }
+         }
+       }
         
         //stage('push to s3 bucket'){
         //when { expression {  params.action == 'create' } }
